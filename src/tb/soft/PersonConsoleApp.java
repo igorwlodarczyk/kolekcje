@@ -1,6 +1,8 @@
 package tb.soft;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Program: Aplikacja działająca w oknie konsoli, która umożliwia testowanie 
@@ -24,7 +26,20 @@ public class PersonConsoleApp {
 			"3 - Modyfikuj dane osoby   \n" +
 			"4 - Wczytaj dane z pliku   \n" +
 			"5 - Zapisz dane do pliku   \n" +
-			"0 - Zakończ program        \n";	
+			"6 - Wczytanie osob do kolekcji z przygotowanych plikow\n" +
+			"7 - Wyswietlenie kolekcji  \n" +
+			"8 - Zapis osoby do kolekcji\n" +
+			"9 - Usuniecie osoby z kolekcji\n" +
+			"0 - Zakończ program        \n";
+
+	private static final String MENU_COLLECTION =
+			"Jaka kolekcja?        \n" +
+					"1 - HashSet   \n" +
+					"2 - TreeSet   \n" +
+					"3 - ArrayList \n" +
+					"4 - LinkedList\n" +
+					"5 - HashMap   \n" +
+					"6 - TreeMap   \n";
 	
 	private static final String CHANGE_MENU = 
 			"   Co zmienić?     \n" + 
@@ -41,7 +56,10 @@ public class PersonConsoleApp {
 	 * w oknie konsoli tekstowej.
 	 */
 	private static final ConsoleUserDialog UI = new JOptionUserDialog();
-	
+
+	private static ArrayList<String> fileNames = new ArrayList<>();
+	static PersonCollections collections = new PersonCollections();
+
 	
 	public static void main(String[] args) {
 		// Utworzenie obiektu aplikacji konsolowej
@@ -68,13 +86,14 @@ public class PersonConsoleApp {
 
 		while (true) {
 			UI.clearConsole();
-			showCurrentPerson();
+
 
 			try {
 				switch (UI.enterInt(MENU + "==>> ")) {
 				case 1:
 					// utworzenie nowej osoby
 					currentPerson = createNewPerson();
+					showCurrentPerson();
 					break;
 				case 2:
 					// usunięcie danych aktualnej osoby.
@@ -91,6 +110,7 @@ public class PersonConsoleApp {
 					String file_name = UI.enterString("Podaj nazwę pliku: ");
 					currentPerson = Person.readFromFile(file_name);
 					UI.printInfoMessage("Dane aktualnej osoby zostały wczytane z pliku " + file_name);
+					showCurrentPerson();
 				}
 					break;
 				case 5: {
@@ -99,8 +119,46 @@ public class PersonConsoleApp {
 					Person.printToFile(file_name, currentPerson);
 					UI.printInfoMessage("Dane aktualnej osoby zostały zapisane do pliku " + file_name);
 				}
-
 					break;
+				case 6: {
+					//Wczytanie parametrow startowych
+					loadPersonsFromFile();
+				}
+					break;
+				case 7: {
+					//wyswietlanie kolekcji
+					switch (UI.enterInt(MENU_COLLECTION + "==>> ")){
+						case 1:
+							showHashSet(currentPerson);
+							break;
+						case 2:
+							//displayPersonTreeSet();
+							break;
+						case 3:
+							//displayPersonArrayList();
+							break;
+						case 4:
+							//displayPersonLinkedList();
+							break;
+						case 5:
+							//displayPersonHashMap();
+							break;
+						case 6:
+							//displayPersonTreeMap();
+							break;
+					}
+				}
+					break;
+				case 8: {
+					//Dodanie aktualnej osoby do kolekcji
+					collections.addPerson(currentPerson);
+				}
+					break;
+				case 9: {
+					//Usuniecie aktualnej osoby z kolekcji
+					collections.removePerson(currentPerson);
+				}
+
 				case 0:
 					// zakończenie działania programu
 					UI.printInfoMessage("\nProgram zakończył działanie!");
@@ -114,6 +172,38 @@ public class PersonConsoleApp {
 				UI.printErrorMessage(e.getMessage());
 			}
 		} // koniec pętli while
+	}
+
+	public static void loadPersonsFromFile() throws PersonException {
+		fileNames.add("plik1");
+		fileNames.add("plik2");
+		Person person;
+		for(String name : fileNames){
+			person = Person.readFromFile(name);
+			collections.addPerson(person);
+		}
+	}
+
+	public static void showHashSet(Person currentPerson) throws PersonException {
+		HashSet<Person> personHashSet = collections.getPersonHashSet();
+		HashSet<PersonE> personHashSetE = collections.getPersonHashSetE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie HashSetu zawierajacego klase Person\n");
+		for(Person person : personHashSet){
+			showPerson(person);
+			if(person.equals(currentPerson)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+
+		UI.printMessage("Wyswietlanie HashSetu zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personHashSetE){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
 	}
 	
 	
