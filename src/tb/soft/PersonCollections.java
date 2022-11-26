@@ -74,4 +74,37 @@ public class PersonCollections {
         return personHashSetE;
     }
 
+    public static TreeSet<Person> getPersonTreeSet(){
+        return personTreeSet;
+    }
+
+    public static TreeSet<PersonE> getPersonTreeSetE(){
+        return personTreeSetE;
+    }
+
+    public static ArrayList<Person> getPersonArrayList(){
+        return personArrayList;
+    }
+
+    public static ArrayList<PersonE> getPersonArrayListE(){
+        return personArrayListE;
+    }
+
+    public static LinkedList<Person> getPersonLinkedList(){
+        return personLinkedList;
+    }
+
+    public static LinkedList<PersonE> getPersonLinkedListE(){
+        return personLinkedListE;
+    }
+
+    public static HashMap<Integer, PersonE> getPersonHashMapE(){
+        return personHashMapE;
+    }
+
+    public static TreeMap<Integer, PersonE> getPersonTreeMapE(){
+        return personTreeMapE;
+    }
+
+
 }

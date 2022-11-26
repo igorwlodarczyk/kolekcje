@@ -1,8 +1,6 @@
 package tb.soft;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Program: Aplikacja działająca w oknie konsoli, która umożliwia testowanie 
@@ -127,26 +125,29 @@ public class PersonConsoleApp {
 					break;
 				case 7: {
 					//wyswietlanie kolekcji
-					switch (UI.enterInt(MENU_COLLECTION + "==>> ")){
-						case 1:
-							showHashSet(currentPerson);
-							break;
-						case 2:
-							//displayPersonTreeSet();
-							break;
-						case 3:
-							//displayPersonArrayList();
-							break;
-						case 4:
-							//displayPersonLinkedList();
-							break;
-						case 5:
-							//displayPersonHashMap();
-							break;
-						case 6:
-							//displayPersonTreeMap();
-							break;
-					}
+					if(currentPerson != null){
+						switch (UI.enterInt(MENU_COLLECTION + "==>> ")){
+							case 1:
+								showHashSet(currentPerson);
+								break;
+							case 2:
+								showTreeSet(currentPerson);
+								break;
+							case 3:
+								showArrayList(currentPerson);
+								break;
+							case 4:
+								showLinkedList(currentPerson);
+								break;
+							case 5:
+								showHashMap(currentPerson);
+								break;
+							case 6:
+								showTreeMap(currentPerson);
+								break;
+						}
+					}else UI.printMessage("Aktualna osoba nie moze byc nullem!");
+
 				}
 					break;
 				case 8: {
@@ -158,7 +159,7 @@ public class PersonConsoleApp {
 					//Usuniecie aktualnej osoby z kolekcji
 					collections.removePerson(currentPerson);
 				}
-
+					break;
 				case 0:
 					// zakończenie działania programu
 					UI.printInfoMessage("\nProgram zakończył działanie!");
@@ -177,6 +178,7 @@ public class PersonConsoleApp {
 	public static void loadPersonsFromFile() throws PersonException {
 		fileNames.add("plik1");
 		fileNames.add("plik2");
+		fileNames.add("plik3");
 		Person person;
 		for(String name : fileNames){
 			person = Person.readFromFile(name);
@@ -199,6 +201,98 @@ public class PersonConsoleApp {
 
 		UI.printMessage("Wyswietlanie HashSetu zawierajacego klase Person z funkcjami hashcode oraz equals\n");
 		for(PersonE person2 : personHashSetE){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+	}
+
+	public static void showTreeSet(Person currentPerson) throws PersonException {
+		TreeSet<Person> personTreeSet = collections.getPersonTreeSet();
+		TreeSet<PersonE> personTreeSetE = collections.getPersonTreeSetE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie TreeSetu zawierajacego klase Person\n");
+		for(Person person : personTreeSet){
+			showPerson(person);
+			if(person.equals(currentPerson)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+
+		UI.printMessage("Wyswietlanie TreeSetu zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personTreeSetE){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+	}
+
+	public static void showArrayList(Person currentPerson) throws PersonException {
+		ArrayList<Person> personTreeSet = collections.getPersonArrayList();
+		ArrayList<PersonE> personTreeSetE = collections.getPersonArrayListE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie ArrayListy zawierajacego klase Person\n");
+		for(Person person : personTreeSet){
+			showPerson(person);
+			if(person.equals(currentPerson)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+
+		UI.printMessage("Wyswietlanie ArrayListy zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personTreeSetE){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+	}
+
+	public static void showLinkedList(Person currentPerson) throws PersonException {
+		LinkedList<Person> personTreeSet = collections.getPersonLinkedList();
+		LinkedList<PersonE> personTreeSetE = collections.getPersonLinkedListE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie LinkedListy zawierajacego klase Person\n");
+		for(Person person : personTreeSet){
+			showPerson(person);
+			if(person.equals(currentPerson)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+
+		UI.printMessage("Wyswietlanie LinkedListy zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personTreeSetE){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+	}
+
+	public static void showHashMap(Person currentPerson) throws PersonException {
+		HashMap<Integer, PersonE> personHashMapE = collections.getPersonHashMapE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie HashMapy zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personHashMapE.values()){
+			showPerson(person2);
+			if(person2.equals(currentPerson2)){
+				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
+			}
+		}
+	}
+
+	public static void showTreeMap(Person currentPerson) throws PersonException {
+		TreeMap<Integer, PersonE> personTreeMapE = collections.getPersonTreeMapE();
+		PersonE currentPerson2 = new PersonE(currentPerson);
+
+		UI.printMessage("Wyswietlanie TreeMapy zawierajacego klase Person z funkcjami hashcode oraz equals\n");
+		for(PersonE person2 : personTreeMapE.values()){
 			showPerson(person2);
 			if(person2.equals(currentPerson2)){
 				UI.printMessage("Jest to ta sama osoba co aktualnie wczytana\n");
